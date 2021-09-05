@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:gomi_chat/element/chatroom_container.dart';
 import 'package:gomi_chat/profile_screen.dart';
 
-import 'element/comment_container.dart';
+import 'model/chat.dart';
 
 class ChatList extends StatefulWidget {
   @override
@@ -10,6 +11,8 @@ class ChatList extends StatefulWidget {
 }
 
 class _ChatListState extends State<ChatList> {
+  final _firestore = FirebaseFirestore.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,15 +32,12 @@ class _ChatListState extends State<ChatList> {
           ),
         ],
       ),
-      body:
-      ListView.builder(
-        itemCount: 5,
+      body: ListView.builder(
+        itemCount: 10,
         itemBuilder: (context, index) {
-          return ChatroomContainer();
+          return ChatroomContainer(chat: sampleChats[index]);
         },
       ),
-      //],
-      // ),
     );
   }
 }

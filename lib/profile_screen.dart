@@ -39,6 +39,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   setUsername() async {
+    if (myController.text.isEmpty || myController.text == username) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text("New username can't be empty or be the same as your current username"),
+          );
+        },
+      );
+    }
     SharedPreferences prefs = await SharedPreferences.getInstance();
     username = myController.text;
     await prefs.setString('username', username);
@@ -73,7 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 setUsername();
               });
             },
-            //(myController.text.isEmpty || myController.text == username) ? null : setUsername(),
+            //(myController.text.isEmpty || myController.text == username) ? null : setUsername(), <-- I couldn't make it work
             child: const Text('Save'),
           ),
         ],
