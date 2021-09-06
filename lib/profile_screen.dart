@@ -9,8 +9,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  //const ProfileScreen({Key? key}) : super(key: key);
-
   final myController = TextEditingController();
 
   @override
