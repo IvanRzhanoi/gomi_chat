@@ -11,7 +11,36 @@ class ChatList extends StatefulWidget {
 }
 
 class _ChatListState extends State<ChatList> {
+  List<Chat> chats = [];
   final _firestore = FirebaseFirestore.instance;
+
+  @override
+  void initState() {
+    super.initState();
+    loadChats();
+  }
+
+  void loadChats() {
+    _firestore
+        .collection("chats")
+        .get()
+        .then((snapshot) {
+      snapshot.docs.forEach((element) {
+        setState(() {
+          chats.add(
+            Chat(
+              chatID: element.id,
+              name: element["name"],
+              // I could do something smarter with this,
+              // like downloading the latest comment from "comments" collection.
+              // Alas, I have no time or desire to work with it
+              latestComment: "no latest comment could be loaded",
+            ),
+          );
+        });
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +62,9 @@ class _ChatListState extends State<ChatList> {
         ],
       ),
       body: ListView.builder(
-        itemCount: 10,
+        itemCount: chats.length,
         itemBuilder: (context, index) {
-          return ChatroomContainer(chat: sampleChats[index]);
+          return ChatroomContainer(chat: chats[index]);
         },
       ),
     );
